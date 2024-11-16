@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoomerrangMech : MonoBehaviour
@@ -6,25 +7,39 @@ public class BoomerrangMech : MonoBehaviour
     public Transform cam;
     public Transform attackPoint;
     public GameObject objectToThrow;
+    public GameObject player;
+    private GameObject projectile;
+    private GameObject test;
 
     [Header("Throwing")]
     public KeyCode throwKey = KeyCode.Mouse0;
     public float throwForce;
     public float throwUpwardForce;
 
+    private bool boomercreated;
+    public bool goBack;
+
     bool readyToThrow;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        boomercreated = false;
         readyToThrow = true;
+        goBack = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(throwKey) && readyToThrow)
+        if(Input.GetKeyDown(throwKey) && readyToThrow && !boomercreated)
         {
+            boomercreated = true;
             Throw();
+        }
+
+        if (goBack == true)
+        {
+            projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, player.transform.position, 5f);
         }
     }
 
@@ -32,7 +47,9 @@ public class BoomerrangMech : MonoBehaviour
     {
         readyToThrow = false;
 
-        GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+        projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+
+        Debug.Log("ball created");
 
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 
@@ -50,11 +67,28 @@ public class BoomerrangMech : MonoBehaviour
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
         //remove later this is just to test
-        Invoke(nameof(ResetThrow), 2);
+        Invoke(nameof(ReturnThrow), 1);
     }
 
     private void ResetThrow()
     {
         readyToThrow = true;
+    }
+
+    private void ReturnThrow()
+    {
+        goBack = true;
+        Debug.Log("Going back");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Boomerrang") && goBack == true)
+        {
+            Destroy(other.gameObject);
+            goBack = false;
+            boomercreated = false;
+            Invoke(nameof(ResetThrow), 0f);
+        }
     }
 }
