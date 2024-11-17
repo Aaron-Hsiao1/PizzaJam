@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Boomerrang
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,7 @@ public class BoomerrangMech : MonoBehaviour
     private GameObject projectile;
     public GameObject holdPrefab;
     public Transform holdSpawn;
-    public GameObject holdingBoomer;
+    private GameObject holdingBoomer;
 
     [Header("Throwing")]
     public KeyCode throwKey = KeyCode.Mouse0;
@@ -43,7 +43,7 @@ public class BoomerrangMech : MonoBehaviour
 
         if (goBack == true)
         {
-            projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, player.transform.position, 5f);
+            projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, player.transform.position, 0.5f);
         }
     }
 
@@ -73,7 +73,6 @@ public class BoomerrangMech : MonoBehaviour
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
         //remove later this is just to test
-        Invoke(nameof(ReturnThrow), 1);
     }
 
     private void ResetThrow()
@@ -81,12 +80,6 @@ public class BoomerrangMech : MonoBehaviour
         readyToThrow = true;
         Invoke(nameof(SpawnBoomer), 0f);
         Debug.Log("Resetting");
-    }
-
-    private void ReturnThrow()
-    {
-        goBack = true;
-        Debug.Log("Going back");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,11 +95,8 @@ public class BoomerrangMech : MonoBehaviour
 
     private void SpawnBoomer()
     {
-        holdingBoomer = Instantiate(holdPrefab, player.transform.position, player.transform.rotation);
-        holdingBoomer.transform.SetParent(player.transform);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
-        transform.localScale = Vector3.one;
+        holdingBoomer = Instantiate(holdPrefab, holdSpawn.position, holdSpawn.rotation);
+        holdingBoomer.transform.SetParent(holdSpawn.transform, true);
         Debug.Log("Spawning");
     }
 }
