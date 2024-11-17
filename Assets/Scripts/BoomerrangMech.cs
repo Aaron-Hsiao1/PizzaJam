@@ -9,7 +9,9 @@ public class BoomerrangMech : MonoBehaviour
     public GameObject objectToThrow;
     public GameObject player;
     private GameObject projectile;
-    private GameObject test;
+    public GameObject holdPrefab;
+    public Transform holdSpawn;
+    public GameObject holdingBoomer;
 
     [Header("Throwing")]
     public KeyCode throwKey = KeyCode.Mouse0;
@@ -23,6 +25,8 @@ public class BoomerrangMech : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Invoke(nameof(SpawnBoomer), 0f);
+
         boomercreated = false;
         readyToThrow = true;
         goBack = false;
@@ -46,6 +50,8 @@ public class BoomerrangMech : MonoBehaviour
     private void Throw()
     {
         readyToThrow = false;
+
+        Destroy(holdingBoomer);
 
         projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
 
@@ -73,6 +79,8 @@ public class BoomerrangMech : MonoBehaviour
     private void ResetThrow()
     {
         readyToThrow = true;
+        Invoke(nameof(SpawnBoomer), 0f);
+        Debug.Log("Resetting");
     }
 
     private void ReturnThrow()
@@ -90,5 +98,15 @@ public class BoomerrangMech : MonoBehaviour
             boomercreated = false;
             Invoke(nameof(ResetThrow), 0f);
         }
+    }
+
+    private void SpawnBoomer()
+    {
+        holdingBoomer = Instantiate(holdPrefab, player.transform.position, player.transform.rotation);
+        holdingBoomer.transform.SetParent(player.transform);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(Vector3.zero);
+        transform.localScale = Vector3.one;
+        Debug.Log("Spawning");
     }
 }
