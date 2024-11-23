@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
 	public void KillPlayer()
 	{
-		player.GetComponent<Rigidbody>().transform.position = spawnPoint.transform.position + new Vector3(0, 1, 0);
+		player.GetComponentInParent<Rigidbody>().transform.position = spawnPoint.transform.position + new Vector3(0, 1, 0);
 		Debug.Log("You Died!");
 	}
 }
