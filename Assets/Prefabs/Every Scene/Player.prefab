@@ -130,7 +130,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2517639408055442839}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 85c04285f26eb794786017eea3dfbb8a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -183,20 +183,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91ad223de293d24e85109d52311af80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
-  groundDrag: 5
+  walkSpeed: 7
+  sprintSpeed: 10
+  groundDrag: 1
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0
-  walkSpeed: 0
-  sprintSpeed: 0
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
   jumpKey: 32
+  sprintKey: 304
+  crouchKey: 306
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  grounded: 0
+  maxSlopeAngle: 40
   orientation: {fileID: 2365352983598889675}
   JumpHeight: 1.5
+  state: 0
 --- !u!1 &3538127783320467646
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +359,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4155193980399889525}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 85c04285f26eb794786017eea3dfbb8a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -555,6 +561,7 @@ MonoBehaviour:
   sensX: 400
   sensY: 400
   orientation: {fileID: 2365352983598889675}
+  playerInputManager: {fileID: 0}
 --- !u!1 &7720832677475909050
 GameObject:
   m_ObjectHideFlags: 0
