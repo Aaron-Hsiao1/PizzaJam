@@ -10,6 +10,8 @@ public class PlayerCam : MonoBehaviour
 	float xRotation;
 	float yRotation;
 
+	[SerializeField] private PlayerInputManager playerInputManager;
+
 	private void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
@@ -18,6 +20,11 @@ public class PlayerCam : MonoBehaviour
 
 	private void Update()
 	{
+		if (playerInputManager.escapeMenuOpen)
+		{
+			return;
+		}
+
 		float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
 		float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 

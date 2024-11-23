@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private GameObject player;
 	[SerializeField] private GameObject spawnPoint;
 
+	private void Awake()
+	{
+		player.GetComponentInParent<Rigidbody>().transform.position = spawnPoint.transform.position + new Vector3(0, 1, 0);
+	}
 
 	public void KillPlayer()
 	{

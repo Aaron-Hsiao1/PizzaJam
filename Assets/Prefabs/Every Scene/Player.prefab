@@ -119,7 +119,7 @@ MonoBehaviour:
   throwUpwardForce: 0
   goBack: 0
   radius: 10
-  force: 500
+  force: 25
   upwardModifier: 1
   rb: {fileID: 0}
   testingRb: {fileID: 251998322788527397}
