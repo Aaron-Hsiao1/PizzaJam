@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Boomerrang
   - Obstacle
+  - TESTPLAYER
+  - Player Object
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
