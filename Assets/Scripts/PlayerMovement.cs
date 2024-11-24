@@ -25,7 +25,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 	[Header("Keybinds")]
 	public KeyCode jumpKey = KeyCode.Space;
 	public KeyCode sprintKey = KeyCode.LeftShift;
-	public KeyCode crouchKey = KeyCode.LeftControl;
+	public KeyCode crouchKey = KeyCode.C;
 
 	[Header("Ground Check")]
 	public float playerHeight;
@@ -194,7 +194,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 			state = MovementState.crouching;
 			moveSpeed = crouchSpeed;
 		}
-		if (grounded && Input.GetKey(sprintKey))
+		else if (grounded && Input.GetKey(sprintKey))
 		{
 			state = MovementState.sprinting;
 			moveSpeed = sprintSpeed;

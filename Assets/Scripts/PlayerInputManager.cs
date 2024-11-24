@@ -13,7 +13,6 @@ public class PlayerInputManager : MonoBehaviour
 
 	public GameObject escapeMenu;
 
-	public event EventHandler OnInteractAction;
 	// Start is called before the first frame update
 	void Start()
 	{

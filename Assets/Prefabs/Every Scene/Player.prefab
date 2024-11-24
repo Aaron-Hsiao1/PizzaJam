@@ -45,7 +45,8 @@ GameObject:
   - component: {fileID: 5265904295414896849}
   - component: {fileID: 251998322788527397}
   - component: {fileID: 6499502551977519781}
-  - component: {fileID: 645776931117481716}
+  - component: {fileID: -9185331422662535377}
+  - component: {fileID: 8435598521435792162}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -204,6 +205,39 @@ MonoBehaviour:
   orientation: {fileID: 2365352983598889675}
   JumpHeight: 1.5
   state: 0
+--- !u!114 &-9185331422662535377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517639408055442839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dc1441c949f43448a188cd70956918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escapeMenuOpen: 0
+  canEscape: 0
+  escapeMenu: {fileID: 0}
+--- !u!114 &8435598521435792162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517639408055442839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faed56cdf16c6e549b792765b6a27b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 2365352983598889675}
+  playerObj: {fileID: 7549349296941545071}
+  maxSlideTime: 0.75
+  slideForce: 200
+  slideYScale: 0.5
+  slideKey: 306
 --- !u!1 &3538127783320467646
 GameObject:
   m_ObjectHideFlags: 0
