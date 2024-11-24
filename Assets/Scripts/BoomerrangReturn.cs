@@ -33,5 +33,9 @@ public class BoomerrangReturn : MonoBehaviour
 			boomerMech.TriggerShockwave(rb.position);
 			Invoke(nameof(ReturnThrow), 0f);
 		}
-	}
+        else if (other.gameObject.CompareTag("ObstacleNoLaunch"))
+        {
+            Invoke(nameof(ReturnThrow), 0f);
+        }
+    }
 }
