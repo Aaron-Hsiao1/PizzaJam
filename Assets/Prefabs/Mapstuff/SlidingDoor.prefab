@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 910712264925108635}
   - component: {fileID: 3118611570320682321}
   - component: {fileID: 768529278488467325}
+  - component: {fileID: 2092567686128914747}
   m_Layer: 0
   m_Name: gamejamslidingdoor
   m_TagString: Untagged
@@ -220,3 +221,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endPos: {x: 0, y: 0, z: 0}
   speed: 1
+--- !u!65 &2092567686128914747
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3478877618299505796}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.048881408, y: 0.125165, z: 0.10346496}
+  m_Center: {x: -0.003587929, y: 0.0000000040443875, z: -0.0017324687}

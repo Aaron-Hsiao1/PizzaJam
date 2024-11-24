@@ -920,7 +920,7 @@ MonoBehaviour:
   sensX: 400
   sensY: 400
   orientation: {fileID: 2365352983598889675}
-  playerInputManager: {fileID: 0}
+  playerInputManager: {fileID: -9185331422662535377}
 --- !u!1 &7094016312253586775
 GameObject:
   m_ObjectHideFlags: 0
