@@ -49,7 +49,11 @@ public class PlayerMovementTutorial : MonoBehaviour
 	private float slideTimer;
 	public KeyCode slideKey = KeyCode.LeftControl;
 
-	private bool sliding;
+	public bool sliding;
+
+	[Header("SFX")]
+	public AudioSource jumpSFX;
+	public AudioSource landSFX;
 
 	[Header("References")]
 	public Transform orientation;
@@ -198,6 +202,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 		// reset y velocity
 		rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
+		jumpSFX.Play();
 		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
 		_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * -9.81f);

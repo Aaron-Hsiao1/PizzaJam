@@ -21,6 +21,9 @@ public class BoomerrangMech : MonoBehaviour
 	private bool boomercreated;
 	public bool goBack;
 
+	[Header("SFX")]
+	public AudioSource throwSFX;
+
 	[Header("Shockwave")]
 	[SerializeField] private float radius = 10f;
 	[SerializeField] private float force = 10f;
@@ -65,6 +68,7 @@ public class BoomerrangMech : MonoBehaviour
 		readyToThrow = false;
 		Destroy(holdingBoomer);
 		projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+		throwSFX.Play();
 		//Debug.Log("ball created");
 		Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 		Vector3 forceDirection = cam.transform.forward;
