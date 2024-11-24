@@ -1540,17 +1540,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
       propertyPath: crouchKey
-      value: 99
+      value: 306
       objectReference: {fileID: 0}
     - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
       propertyPath: jumpForce
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
+      propertyPath: slideForce
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
       propertyPath: airMultiplier
       value: 0.4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -9185331422662535377, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1826,7 +1831,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2065341785591367032, guid: 834914fe085c5ee4c9b63f473e11ea3e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
