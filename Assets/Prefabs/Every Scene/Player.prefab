@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 251998322788527397}
   - component: {fileID: 6499502551977519781}
   - component: {fileID: -9185331422662535377}
-  - component: {fileID: 8435598521435792162}
+  - component: {fileID: 950077983958858895}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -187,10 +187,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 7
   sprintSpeed: 10
+  dashSpeed: 20
+  dashSpeedChangeFactor: 50
   groundDrag: 1
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0
+  sprintingFOV: 67.5
+  JumpHeight: 1.5
   crouchSpeed: 3.5
   crouchYScale: 0.5
   jumpKey: 32
@@ -202,9 +206,13 @@ MonoBehaviour:
     m_Bits: 8
   grounded: 0
   maxSlopeAngle: 40
+  maxSlideTime: 0.75
+  slideForce: 200
+  slideKey: 306
   orientation: {fileID: 2365352983598889675}
-  JumpHeight: 1.5
+  playerCam: {fileID: 80321784904979250}
   state: 0
+  dashing: 0
 --- !u!114 &-9185331422662535377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +228,7 @@ MonoBehaviour:
   escapeMenuOpen: 0
   canEscape: 0
   escapeMenu: {fileID: 0}
---- !u!114 &8435598521435792162
+--- !u!114 &950077983958858895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,15 +237,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2517639408055442839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faed56cdf16c6e549b792765b6a27b43, type: 3}
+  m_Script: {fileID: 11500000, guid: 56b5755b82744974880570022ac112a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 2365352983598889675}
-  playerObj: {fileID: 7549349296941545071}
-  maxSlideTime: 0.75
-  slideForce: 200
-  slideYScale: 0.5
-  slideKey: 306
+  playerCam: {fileID: 873954024474230849}
+  dashForce: 20
+  dashUpwardForce: 0
+  dashDuration: 0.25
+  cam: {fileID: 80321784904979250}
+  dashFov: 70
+  useCameraForward: 0
+  allowAllDirections: 0
+  disableGravity: 0
+  resetVel: 0
+  dashCooldown: 1.5
+  dashKey: 113
 --- !u!1 &3538127783320467646
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +327,7 @@ GameObject:
   - component: {fileID: 1260659077661668510}
   - component: {fileID: 3964648957243143033}
   - component: {fileID: 8364885487529525456}
+  - component: {fileID: 5346621264920002545}
   m_Layer: 0
   m_Name: PlayerObj
   m_TagString: Player Object
@@ -408,6 +424,29 @@ CapsuleCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &5346621264920002545
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155193980399889525}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 2.001
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4180778114581358025
