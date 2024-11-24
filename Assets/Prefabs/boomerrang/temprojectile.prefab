@@ -122,6 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 4797908330113334729}
   boomerMech: {fileID: 0}
+  rb: {fileID: 0}
+  hitSFX: {fileID: 8300000, guid: 4047aaaa19814be44ae0f40e9b70e1fd, type: 3}
 --- !u!65 &5842449154197340322
 BoxCollider:
   m_ObjectHideFlags: 0

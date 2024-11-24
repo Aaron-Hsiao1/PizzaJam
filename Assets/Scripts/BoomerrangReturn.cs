@@ -6,6 +6,7 @@ public class BoomerrangReturn : MonoBehaviour
 	private GameObject player;
 	public BoomerrangMech boomerMech;
 	public Rigidbody rb;
+	public AudioClip hitSFX;
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
@@ -31,6 +32,8 @@ public class BoomerrangReturn : MonoBehaviour
 		if (other.gameObject.CompareTag("Obstacle"))
 		{
 			boomerMech.TriggerShockwave(rb.position);
+			if (!boomerMech.goBack)
+				AudioSource.PlayClipAtPoint(hitSFX, transform.position);
 			Invoke(nameof(ReturnThrow), 0f);
 		}
         else if (other.gameObject.CompareTag("ObstacleNoLaunch"))

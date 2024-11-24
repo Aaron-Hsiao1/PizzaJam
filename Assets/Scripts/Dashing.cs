@@ -30,6 +30,9 @@ public class Dashing : MonoBehaviour
 	[Header("Input")]
 	public KeyCode dashKey = KeyCode.Q;
 
+	[Header("SFX")]
+	public AudioSource dashSFX;
+
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -81,6 +84,8 @@ public class Dashing : MonoBehaviour
 		}
 
 		rb.AddForce(forceToApply, ForceMode.Impulse);
+
+		dashSFX.Play();
 
 		delayedForceToApply = forceToApply;
 		Invoke(nameof(DelayedDashForce), 0.025f);
