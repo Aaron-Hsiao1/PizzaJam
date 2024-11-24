@@ -1539,6 +1539,10 @@ PrefabInstance:
       value: Player Object
       objectReference: {fileID: 0}
     - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
+      propertyPath: crouchKey
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499502551977519781, guid: a2852700c9d36064b93b104d7f4a7763, type: 3}
       propertyPath: jumpForce
       value: 20
       objectReference: {fileID: 0}
