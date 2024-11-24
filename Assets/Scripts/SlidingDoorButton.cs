@@ -4,7 +4,10 @@ public class SlidingDoorButton : MonoBehaviour
 {
 	[SerializeField] private SlidingDoor slidingDoor;
     Animator m_Animator;
-
+    private void Start()
+    {
+        m_Animator = gameObject.GetComponent<Animator>();
+    }
     private void OnCollisionEnter(Collision other)
 	{
 		if (other.gameObject.CompareTag("Boomerrang") && slidingDoor.Moving == false)

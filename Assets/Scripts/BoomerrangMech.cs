@@ -51,7 +51,7 @@ public class BoomerrangMech : MonoBehaviour
 
 		if (goBack == true)
 		{
-			projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, player.transform.position, 0.5f);
+			projectile.transform.position = Vector3.MoveTowards(projectile.transform.position, player.transform.position, 50f*Time.deltaTime);
 		}
 
 		if (Input.GetKeyDown(KeyCode.U))
