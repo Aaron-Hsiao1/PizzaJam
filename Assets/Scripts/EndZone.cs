@@ -7,6 +7,8 @@ public class EndZone : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Player Object"))
 		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			SceneManager.LoadScene("Level Selector");
 		}
 	}
