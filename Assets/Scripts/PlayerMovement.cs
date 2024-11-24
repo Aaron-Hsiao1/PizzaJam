@@ -10,12 +10,18 @@ public class PlayerMovementTutorial : MonoBehaviour
 	public float walkSpeed;
 	public float sprintSpeed;
 
+	public float dashSpeed;
+	public float dashSpeedChangeFactor;
+
 	public float groundDrag;
 
 	public float jumpForce;
 	public float jumpCooldown;
 	public float airMultiplier;
 	bool readyToJump;
+	public float sprintingFOV;
+
+	[SerializeField] private float JumpHeight = 1.5f;
 
 	[Header("Crouching")]
 	public float crouchSpeed;
@@ -37,15 +43,22 @@ public class PlayerMovementTutorial : MonoBehaviour
 	private RaycastHit slopeHit;
 	private bool exitingSlope;
 
-	public Transform orientation;
+	[Header("Sliding")]
+	public float maxSlideTime;
+	public float slideForce;
+	private float slideTimer;
+	public KeyCode slideKey = KeyCode.LeftControl;
 
+	private bool sliding;
+
+	[Header("References")]
+	public Transform orientation;
 	float horizontalInput;
 	float verticalInput;
-
 	Vector3 moveDirection;
-
 	Rigidbody rb;
-	[SerializeField] private float JumpHeight = 1.5f;
+	public PlayerCam playerCam;
+
 	private float _verticalVelocity;
 
 	public MovementState state;
@@ -54,8 +67,12 @@ public class PlayerMovementTutorial : MonoBehaviour
 		walking,
 		sprinting,
 		crouching,
+		sliding,
+		dashing,
 		air
 	}
+
+	public bool dashing;
 
 	private void Start()
 	{
@@ -78,7 +95,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
 
 		// handle drag
-		if (grounded)
+		if (state == MovementState.walking || state == MovementState.sprinting || state == MovementState.crouching)
 		{
 			rb.linearDamping = groundDrag;
 		}
@@ -90,6 +107,10 @@ public class PlayerMovementTutorial : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (sliding)
+		{
+			SlidingMovement();
+		}
 		MovePlayer();
 	}
 
@@ -108,13 +129,13 @@ public class PlayerMovementTutorial : MonoBehaviour
 			Invoke(nameof(ResetJump), jumpCooldown);
 		}
 
-		if (Input.GetKeyDown(crouchKey))
+		if (Input.GetKeyDown(crouchKey) && !sliding)
 		{
 			transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
 			rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 		}
 
-		if (Input.GetKeyUp(crouchKey))
+		if (Input.GetKeyUp(crouchKey) && !sliding)
 		{
 			transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
 		}
@@ -122,6 +143,8 @@ public class PlayerMovementTutorial : MonoBehaviour
 
 	private void MovePlayer()
 	{
+		if (state == MovementState.dashing) return;
+
 		// calculate movement direction
 		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 		rb.AddForce(moveDirection.normalized * moveSpeed * 10f + new Vector3(0.0f, _verticalVelocity, 0.0f), ForceMode.Force);
@@ -185,30 +208,103 @@ public class PlayerMovementTutorial : MonoBehaviour
 		exitingSlope = false;
 	}
 
+	private float desiredMoveSpeed;
+	private float lastDesiredMoveSpeed;
+	private MovementState lastState;
+	private bool keepMomentum;
+
 	private void StateHandler()
 	{
-		Debug.Log("STate Handler");
-		//sprinting
-		if (Input.GetKey(crouchKey))
+		if (dashing)
 		{
-			state = MovementState.crouching;
-			moveSpeed = crouchSpeed;
+			state = MovementState.dashing;
+			desiredMoveSpeed = dashSpeed;
+			speedChangeFactor = dashSpeedChangeFactor;
 		}
-		else if (grounded && Input.GetKey(sprintKey))
+		else if (Input.GetKeyUp(slideKey) && sliding)
+		{
+			StopSlide();
+		}
+		else if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
+		{
+			StartSlide();
+		}
+		else if (Input.GetKey(crouchKey) && !sliding)
+		{
+			playerCam.DoFov(60f);
+			state = MovementState.crouching;
+			desiredMoveSpeed = crouchSpeed;
+		}
+		else if (grounded && Input.GetKey(sprintKey)) //SPRINTING
 		{
 			state = MovementState.sprinting;
-			moveSpeed = sprintSpeed;
+			playerCam.DoFov(sprintingFOV);
+			desiredMoveSpeed = sprintSpeed;
 		}
 		//walking
 		else if (grounded)
 		{
+			playerCam.DoFov(60f);
 			state = MovementState.walking;
-			moveSpeed = walkSpeed;
+			desiredMoveSpeed = walkSpeed;
 		}
 		else
 		{
+			playerCam.DoFov(60f);
 			state = MovementState.air;
+
+			if (desiredMoveSpeed < sprintSpeed)
+			{
+				desiredMoveSpeed = walkSpeed;
+			}
+			else
+			{
+				desiredMoveSpeed = sprintSpeed;
+			}
 		}
+
+		bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;
+		if (lastState == MovementState.dashing) keepMomentum = true;
+
+		if (desiredMoveSpeedHasChanged)
+		{
+			if (keepMomentum)
+			{
+				StopAllCoroutines();
+				StartCoroutine(SmoothlyLerpMoveSpeed());
+			}
+			else
+			{
+				StopAllCoroutines();
+				moveSpeed = desiredMoveSpeed;
+			}
+		}
+
+		lastDesiredMoveSpeed = desiredMoveSpeed;
+		lastState = state;
+	}
+
+	private float speedChangeFactor;
+	private IEnumerator SmoothlyLerpMoveSpeed()
+	{
+		float time = 0;
+		float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
+		float startValue = moveSpeed;
+
+		float boostFactor = speedChangeFactor;
+
+		while (time < difference)
+		{
+			moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
+
+			time += Time.deltaTime * boostFactor;
+
+			yield return null;
+		}
+
+		moveSpeed = desiredMoveSpeed;
+		speedChangeFactor = 1f;
+		keepMomentum = false;
 	}
 
 	private bool OnSlope()
@@ -224,5 +320,36 @@ public class PlayerMovementTutorial : MonoBehaviour
 	private Vector3 GetSlopeMoveDirection()
 	{
 		return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+	}
+
+	private void StartSlide()
+	{
+		sliding = true;
+
+		transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+		rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+		slideTimer = maxSlideTime;
+	}
+
+	private void SlidingMovement()
+	{
+		Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+		rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
+
+		slideTimer -= Time.deltaTime;
+
+		if (slideTimer <= 0)
+		{
+			StopSlide();
+		}
+	}
+
+	private void StopSlide()
+	{
+		sliding = false;
+
+		transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
 	}
 }
